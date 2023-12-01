@@ -26,7 +26,6 @@ def replace_spelled_numbers(values: list):
     output = []
     for value in values:
         output.append(re.sub(r'one|two|three|four|five|six|seven|eight|nine', sub_digit, str(value)))
-        # Likely issue: need to allow overlapping groups
     return output
 
 def first_last(values: list):
@@ -58,5 +57,3 @@ numbers = first_last(repl)
 print(numbers)
 output = sum(numbers)
 print(output)
-
-# 54185 too low
