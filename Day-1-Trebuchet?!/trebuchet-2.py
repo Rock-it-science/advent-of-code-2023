@@ -3,6 +3,13 @@ import re
 # Combine first digit and last digit
 # Sum all values
 
+def extract_digits(values: list):
+    output = []
+    for value in values:
+        match_groups = re.finditer(r'(?=([0-9]|one|two|three|four|five|six|seven|eight|nine))', value)
+        output.append(''.join([match.group(1) for match in match_groups]))
+    return output
+
 def sub_digit(match: re.Match):
     match = match.group(0)
     if match == 'one': return '1'
@@ -18,14 +25,8 @@ def sub_digit(match: re.Match):
 def replace_spelled_numbers(values: list):
     output = []
     for value in values:
-        output.append(re.sub(r'one|two|three|four|five|six|seven|eight|nine', sub_digit, value))
+        output.append(re.sub(r'one|two|three|four|five|six|seven|eight|nine', sub_digit, str(value)))
         # Likely issue: need to allow overlapping groups
-    return output
-
-def extract_digits(values: list):
-    output = []
-    for value in values:
-        output.append(re.findall(r'[0-9]', value))
     return output
 
 def first_last(values: list):
@@ -49,11 +50,11 @@ while line != '':
     line = input()
     doc.append(line)
 doc.pop(-1)
-repl = replace_spelled_numbers(doc)
-print(repl)
-digits = extract_digits(repl)
+digits = extract_digits(doc)
 print(digits)
-numbers = first_last(digits)
+repl = replace_spelled_numbers(digits)
+print(repl)
+numbers = first_last(repl)
 print(numbers)
 output = sum(numbers)
 print(output)
